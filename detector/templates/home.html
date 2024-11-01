@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Human Detection App</title>
+</head>
+<body>
+    <h1>Human Detection App</h1>
+
+    <!-- CSRF Token -->
+    <form id="csrf-form" method="post">{% csrf_token %}</form>
+
+    <!-- Video element to show the camera feed -->
+    <video id="video" width="640" height="480" autoplay></video>
+    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+
+    <!-- Button to capture the frame and perform detection -->
+    <button id="capture">Detect Human</button>
+    <div id="result"></div>
+
+    <script>
+        // Step 1: Access the webcam
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => console.error("Error accessing webcam: ", err));
+
+        // Step 2: Capture the image when the "Detect Human" button is clicked
+        document.getElementById('capture').onclick = async () => {
+            const canvas = document.getElementById('canvas');
+            const context = canvas.getContext('2d');
+
+            // Draw the current video frame to the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert the canvas image to a data URL
+            const dataUrl = canvas.toDataURL('image/jpeg');
+
+            // Get CSRF token from the hidden form field
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+            if (!csrfToken) {
+                console.error("CSRF token not found");
+                return;
+            }
+
+            // Step 3: Send the image data to the server
+            try {
+                const response = await fetch('/detect/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken.value
+                    },
+                    body: JSON.stringify({ image: dataUrl })
+                });
+
+                // Step 4: Handle server response
+                const data = await response.json();
+                document.getElementById("result").textContent = data.result || data.error;
+            } catch (error) {
+                console.error("Error sending image to server: ", error);
+            }
+        };
+    </script>
+</body>
+</html>
