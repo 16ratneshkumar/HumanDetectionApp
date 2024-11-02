@@ -23,10 +23,10 @@ def model_predict(image):
     img_array = np.expand_dims(resized_frame, axis=0)
     img_array = preprocess_input(img_array)
     prediction = model.predict(img_array)
-    if prediction[0][0] < 0.5 : # Returns True if human is detected
-        result = "No Human Detected!"  # Placeholder result
-    else:
+    if prediction[0][0] > 0.5 : # Returns True if human is detected
         result = "Human Detected!"  # Placeholder result
+    else:
+        result = " No Human Detected!"  # Placeholder result
     return result
     # Placeholder function for model prediction
     # Replace with actual model inference

@@ -1,22 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Human Detection App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Detection</title>
+  <style>
+        * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background-color: #f0f4f8;
+    }
+
+    header {
+        text-align: center;
+        padding: 20px;
+        background-color: #3a3f5c;
+        color: white;
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    header p {
+        font-size: 1.1em;
+        color: #d3d8e4;
+    }
+
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        width: 80%;
+        max-width: 800px;
+    }
+
+    #video-container {
+        width: 100%;
+        height: 400px;
+        background: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    #video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #status {
+        margin-top: 20px;
+        padding: 20px;
+        text-align: center;
+        width: 100%;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #status h2 {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    #result {
+        font-size: 1.5em;
+        color: red;
+    }
+
+    footer {
+        margin-top: 20px;
+        text-align: center;
+        padding: 10px;
+        width: 100%;
+        background-color: #3a3f5c;
+        color: white;
+    }
+
+    footer p {
+        font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
-    <h1>Human Detection App</h1>
-
-    <!-- CSRF Token -->
     <form id="csrf-form" method="post">{% csrf_token %}</form>
+    <header>
+    <h1>Human Detection System</h1>
+    <p>Detecting human presence in real-time</p>
+    </header>
 
-    <!-- Video element to show the camera feed -->
-    <video id="video" width="640" height="480" autoplay></video>
-    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+    <main>
+    <section id="video-container">
+        <video id="video" autoplay muted></video>
+        <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>  
+    </section>
 
-    <!-- Button to capture the frame and perform detection -->
-    <button id="capture">Detect Human</button>
-    <div id="result"></div>
+    <section id="status">
+        <button id="capture">Detect Human</button>
+        <div id="result"></div>
+    </section>
+    </main>
+
+    <footer>
+    <p>&copy; 2024 Ratnesh Kumar. All rights reserved.</p>
+    </footer>
 
     <script>
         // Step 1: Access the webcam
@@ -64,5 +168,6 @@
             }
         };
     </script>
+
 </body>
 </html>
