@@ -1,1 +1,2 @@
-<!-- GitAds-Verify: VZY3MPZPBP9RB5OYRIZY53ZVAFQXRKSV -->
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=16ratneshkumar/humandetectionapp@github)](https://gitads.dev/v1/ad-track?source=16ratneshkumar/humandetectionapp@github)
